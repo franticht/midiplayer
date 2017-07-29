@@ -1,20 +1,22 @@
 
-;	!src "date.inc"		;Contains labels
-	!src "start.inc"	;Contains start adress. This is specified in the makefile and is also used by the packer(s)
+	;Constants	
+	!src "ed_const.inc"	;Editor constants
 
+	;Main
+	!src "start.inc"	;Contains start adress. This is specified in the makefile and is also used by the packer(s)
 	jsr ed_init
 	jmp ed_mainloop
 
-	
-	
-;	!pet YEAR,MONTH,DAY,HOUR,MINUTE,SECOND
+	;Watermark
+	!src "date.inc"
 
+	;Player
+	!src "pl_init.inc"
+	!src "pl_sendmidibyte.inc"
 
-
-
+	;Editor
 	!src "ed_init.inc"
 	!src "ed_irq.inc"
 	!src "ed_mainloop.inc"
+	!src "ed_vars.inc"
 
-	!src "pl_init.inc"
-	!src "pl_sendmidibyte.inc"

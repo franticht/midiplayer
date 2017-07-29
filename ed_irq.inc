@@ -18,10 +18,28 @@ ed_irq_editor:
 	lda #>ed_irq_nmi
 	sta $fffb ;NMI_VECTORHI
 
+	;IRQ
+	lda #<ed_irq_irq
+	sta $fffe ;IRQ_VECTORLO
+	lda #>ed_irq_irq
+	sta $ffff ;IRQ_VECTORHI
+
+	;CIA2 - NMI - Timer A = Driving the player.
+	lda ed_timerval
+	sta $dd04 ;Timer A Low-Byte  (RS232)CIA2_TA_LO
+	lda ed_timerval+1
+	sta $dd05 ;CIA2_TA_HI
+
 	rts
 	
 
 ;------------------------
 ed_irq_nmi:
+
+	rti
+	
+
+;------------------------
+ed_irq_irq:
 
 	rti

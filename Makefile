@@ -3,7 +3,7 @@
 # Assumes that all files named .a, .s, i., .inc., .asm are to be considered source files
 
 #Project specific settings
-NAME = template
+NAME = midiplayer
 STARTADRESS = 0800
 STARTFILE	= start.inc
 DATEFILE	= date.inc
@@ -57,7 +57,6 @@ $(TARGETDIR)/$(D64NAME) : $(TARGETDIR) $(TARGETDIR)/$(PRGNAME)
 #---------------------------------------------------------
 # Assemble .prg file
 $(TARGETDIR)/$(PRGNAME) : $(TARGETDIR) $(SRCNAME) $(SOURCEFILES) Makefile
-#	@$(ASMDATE) > $(DATEFILE)							#Generate assembly time/date info
 	@date "+	"'!'"pet \"%Y-%m-%d %H:%M.%S\"" > $(DATEFILE)
 	@echo "	* = $$""$(STARTADRESS)" > $(STARTFILE)		#Generate start adress file
 	@echo " "
