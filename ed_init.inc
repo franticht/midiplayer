@@ -10,5 +10,7 @@ ed_init:
 	;Initialize player
 	lda #0
 	jsr pl_init
+	
+	
 
 	rts
