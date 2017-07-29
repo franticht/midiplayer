@@ -12,7 +12,7 @@
 
 	;Player
 	!src "pl_init.inc"
-	!src "pl_sendmidibyte.inc"
+	!src "pl_dinmidi.inc"
 
 	;Editor
 	!src "ed_init.inc"

@@ -4,12 +4,10 @@ ed_mainloop:
 	
 	;Poll for "new frame event"
 ed_waitnewframe: 
-;event_newframe:
-event_newframe_count = *+1
+ed_waitnewframe_count = *+1
 	lda #0
 	bmi ed_waitnewframe
-
-	
+	dec ed_waitnewframe_count ;Mark frame as handled
 
 
 	inc $d020
