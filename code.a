@@ -1,0 +1,35 @@
+
+;	!src "date.inc"		;Contains labels
+	!src "start.inc"	;Contains start adress. This is specified in the makefile and is also used by the packer(s)
+
+	jsr ed_init
+	jmp ed_mainloop
+
+	
+	
+start:
+	jsr pl_dinimidi_send
+;	dec $d020
+;	dec $d020
+	dex
+	bne start
+	beq anotherlab
+anotherlab:
+;	lda #1
+;	sta $d020
+	jmp start
+	
+;	!pet YEAR,MONTH,DAY,HOUR,MINUTE,SECOND
+
+;!for i,224 {
+;	
+;	!byte 255-i
+;}
+;
+;!for i,124 {
+;	
+;	!byte i
+;}
+
+
+	!src "pl_sendmidibyte.inc"

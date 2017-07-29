@@ -1,0 +1,90 @@
+
+	;This function sends a midi byte
+pl_dinimidi_send:
+	dec $d020
+	stx pl_dinimidi_send_savex
+	sty pl_dinimidi_send_savey
+	ldy #0
+
+;	;Begin with a "new byte is coming" message
+;	ldx #%00000100 ; %xxxx01xx
+;	stx $dd01
+;	sty $dd01
+
+	;Start with a "new byte is coming" message
+	ldx #%00001000
+	stx $dd01
+	ldx #%00001100
+	stx $dd01
+	sty $dd01
+	
+	;Send bit 7
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 6
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 5
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 4
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 3
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 2
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 1
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 0
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+pl_dinimidi_send_savex = *+1
+	ldx #0
+pl_dinimidi_send_savey = *+1
+	ldy #0
+	inc $d020
+	rts
