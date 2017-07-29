@@ -1,0 +1,7 @@
+al C:834 .pl_init
+al C:806 .ed_init
+al C:82a .ed_mainloop
+al C:82a .ed_waitnewframe
+al C:8ae .pl_dinimidi_send_savex
+al C:8b0 .pl_dinimidi_send_savey
+al C:829 .ed_irq_nmi
