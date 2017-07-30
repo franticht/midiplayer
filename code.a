@@ -1,6 +1,7 @@
 
 	;Constants	
 	!src "ed_const.inc"	;Editor constants
+	!src "ed_zp.inc"	;Also constants actually (BSS mem kind of)
 
 	;Main
 	!src "start.inc"	;Contains start adress. This is specified in the makefile and is also used by the packer(s)

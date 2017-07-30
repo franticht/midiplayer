@@ -4,5 +4,8 @@ ED_PLAYMODE_PLAY = 1
 ed_playmode:
 	!byte ED_PLAYMODE_PLAY
 
+ed_bgcol:
+	!byte 0
+	
 ed_timerval:
 	!byte <TIMER_ONE_FRAME, >TIMER_ONE_FRAME

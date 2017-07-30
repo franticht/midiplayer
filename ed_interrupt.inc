@@ -81,9 +81,11 @@ ed_interrupt_nmi:
 	bne .noplay
 
 		;Call player
-		inc $d020
+		lda #5
+		sta $d020
 		jsr pl_midi_main
-		dec $d020
+		lda ed_bgcol
+		sta $d021
 
 .noplay:
 

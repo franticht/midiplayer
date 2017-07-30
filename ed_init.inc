@@ -10,13 +10,13 @@ ed_init:
 	;Clear screen
 	lda #5
 	sta $d020
-	lda #0
+	lda ed_bgcol
 	sta $d021
 	jsr ed_clearscreen
 	
 	;Initialize player
 	lda #0
-	jsr pl_init
+	jsr pl_midi_init
 	
 	;Initialize interrupts
 	jsr ed_interrupt_editor
