@@ -97,6 +97,13 @@ vice : $(TARGETDIR)/$(D64NAME)
 xfer : $(TARGETDIR)/$(PRGNAME)
 	1541u2.pl 192.168.2.64 xferscript.txt
 
+
+#---------------------------------------------------------
+git : 
+	git add -u :/
+	git commit -m "update"
+	git push
+	
 #---------------------------------------------------------
 clean : 
 	@echo "*************************"
