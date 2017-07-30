@@ -31,9 +31,9 @@ ed_interrupt_editor:
 	sta $dd05 ;CIA2_TA_HI
 
 	jsr ed_waitvbl
-	lda #20
--	cmp $d012
-	bne -
+;	lda #10
+;-	cmp $d012
+;	bne -
 
 	lda #$11	;FORCE_LOAD | TIMER_START
 	sta $dd0e	;CIA2_CRA
@@ -81,7 +81,9 @@ ed_interrupt_nmi:
 	bne .noplay
 
 		;Call player
+		inc $d020
 		jsr pl_midi_main
+		dec $d020
 
 .noplay:
 

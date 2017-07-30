@@ -8,8 +8,9 @@ ed_init:
 	sta $01
 	
 	;Clear screen
-	lda #0
+	lda #5
 	sta $d020
+	lda #0
 	sta $d021
 	jsr ed_clearscreen
 	

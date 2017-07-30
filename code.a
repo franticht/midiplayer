@@ -10,10 +10,11 @@
 	;Watermark
 	!src "date.inc"
 
-	;Player
+	;MIDI Player
 	!src "pl_midi_main.inc"
 	!src "pl_midi_init.inc"
-	!src "pl_midi_sendbyte.inc"
+	!src "pl_midi_sendbyte_scannerboy2.inc"
+	!src "pl_midi_data.inc"
 
 	;Editor
 	!src "ed_vars.inc"

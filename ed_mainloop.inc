@@ -10,14 +10,14 @@ ed_waitnewframe_count = *+1
 	dec ed_waitnewframe_count ;Mark frame as handled
 
 
-	inc $d020
-	ldx #0
-	ldy #$f6
--	inx
-	bne -
-	iny
-	bne -
-	dec $d020
+;	inc $d020
+;	ldx #0
+;	ldy #$f6
+;-	inx
+;	bne -
+;	iny
+;	bne -
+;	dec $d020
 		
 	
 
