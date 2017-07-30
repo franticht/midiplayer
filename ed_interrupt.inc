@@ -13,15 +13,15 @@ ed_interrupt_editor:
 	sta $dd0d ;CIA2_ICR
 	
 	;NMI..
-	lda #<ed_irq_nmi
+	lda #<ed_interrupt_nmi
 	sta $fffa ;NMI_VECTORLO
-	lda #>ed_irq_nmi
+	lda #>ed_interrupt_nmi
 	sta $fffb ;NMI_VECTORHI
 
 	;IRQ
-	lda #<ed_irq_irq
+	lda #<ed_interrupt_irq
 	sta $fffe ;IRQ_VECTORLO
-	lda #>ed_irq_irq
+	lda #>ed_interrupt_irq
 	sta $ffff ;IRQ_VECTORHI
 
 	;CIA2 - NMI - Timer A = Driving the player.
@@ -70,11 +70,23 @@ ed_interrupt_editor:
 ;------------------------------------------------
 ; NMI INTERRUPT CODE
 
-ed_irq_nmi:
+ed_interrupt_nmi:
 	sta ed_irq_nmi_savea
 	stx ed_irq_nmi_savex
 	sty ed_irq_nmi_savey				
 
+
+	lda ed_playmode
+	cmp #ED_PLAYMODE_PLAY
+	bne .noplay
+
+		;Call player
+		jsr pl_midi_main
+
+.noplay:
+
+
+	;Exit the NMI interrupt
 ed_irq_nmi_savea = *+1
 	lda #0
 ed_irq_nmi_savex = *+1
@@ -91,7 +103,7 @@ ed_irq_nmi_savey = *+1
 ;------------------------------------------------
 ; IRQ INTERRUPT CODE
 
-ed_irq_irq:
+ed_interrupt_irq:
 ;	sta ed_irq_irq_savea
 ;	stx ed_irq_irq_savex
 ;	sty ed_irq_irq_savey				

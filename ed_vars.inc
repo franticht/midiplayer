@@ -1,4 +1,8 @@
 
+ED_PLAYMODE_STOP = 0
+ED_PLAYMODE_PLAY = 1
+ed_playmode:
+	!byte ED_PLAYMODE_PLAY
 
 ed_timerval:
 	!byte <TIMER_ONE_FRAME, >TIMER_ONE_FRAME

@@ -6,27 +6,45 @@
 ;Clear screen
 
 ed_clearscreen:
-	ldx #0
 	
 	;Clear CHAR RAM
-	lda #$20
--	sta $0400+40*0,x
-	sta $0400+40*6,x
-	sta $0400+40*12,x
-	sta $0400+40*18,x
-	dex
-	bne -
+	jsr ed_clearscreenram_default
 	
 	;Clear COLOR RAM
-	lda #5
--	sta $d800+40*0,x
-	sta $d800+40*6,x
-	sta $d800+40*12,x
-	sta $d800+40*18,x
+	jmp ed_clearcolorram_default	;JMP-quit
+
+;	rts
+
+;--------------------------------------------
+;Clear Screen RAM
+
+ed_clearscreenram_default:
+	lda #$20
+ed_clearscreenram:
+	ldx #250
+-	sta $0400+000-1,x
+	sta $0400+250-1,x
+	sta $0400+500-1,x
+	sta $0400+750-1,x
 	dex
 	bne -
-
 	rts
+
+;--------------------------------------------
+;Clear Color RAM
+
+ed_clearcolorram_default:
+	lda #0
+ed_clearcolorram:
+	ldx #250
+-	sta $d800+000-1,x
+	sta $d800+250-1,x
+	sta $d800+500-1,x
+	sta $d800+750-1,x
+	dex
+	bne -
+	rts
+
 
 ;--------------------------------------------
 ;Wait for line 0
