@@ -11,5 +11,16 @@ ed_waitnewframe_count = *+1
 
 
 	inc $d020
+	ldx #0
+	ldy #0
+-	inx
+	bne -
+	inc $d020
+	dec $d020
+	iny
+	bne -
+	dec $d020
+		
+	
 
 	jmp ed_mainloop

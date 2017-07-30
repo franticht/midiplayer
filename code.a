@@ -15,8 +15,9 @@
 	!src "pl_dinmidi.inc"
 
 	;Editor
-	!src "ed_init.inc"
-	!src "ed_irq.inc"
-	!src "ed_mainloop.inc"
 	!src "ed_vars.inc"
+	!src "ed_init.inc"
+	!src "ed_interrupt.inc"
+	!src "ed_generic.inc"
+	!src "ed_mainloop.inc"
 

@@ -1,0 +1,2 @@
+load run from prg 'bin/midiplayer.prg'
+send

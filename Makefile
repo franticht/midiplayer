@@ -84,13 +84,18 @@ $(TARGETDIR) :
 	
 	
 #---------------------------------------------------------
-# Open .prg file in VICE
+# Open .d64 file in VICE
 vice : $(TARGETDIR)/$(D64NAME)
 	@echo "*************************"
 	@echo "* Open .d64 in vice...  *"
 	@echo " "
 	$(VICE) -truedrive +cart -autostart-handle-tde -moncommands $(LABFILE) $(TARGETDIR)/$(D64NAME) >>$(VICEOUT) 2>&1 & #&&
 	@echo " "
+
+#---------------------------------------------------------
+# Open the .prg file on real C64 through 1541U2
+xfer : $(TARGETDIR)/$(PRGNAME)
+	1541u2.pl 192.168.2.64 xferscript.txt
 
 #---------------------------------------------------------
 clean : 
