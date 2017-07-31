@@ -13,7 +13,7 @@ ed_init:
 	lda ed_bgcol
 	sta $d021
 	jsr ed_clearscreen
-	
+		
 	;Initialize player
 	lda #0
 	jsr pl_midi_init
