@@ -12,6 +12,7 @@
 	!src "date.inc"
 
 	;MIDI Player
+	!src "pl_global_const.inc"
 	!src "pl_midi_const.inc"
 	!src "pl_midi_main.inc"
 	!src "pl_midi_init.inc"
