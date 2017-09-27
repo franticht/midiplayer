@@ -123,14 +123,13 @@ text_file = open("pl_data.a", "w")
 text_file.write(datafile)
 text_file.close()
 
-#Finally, generate some files with random bytes
-
-for i in range(NUMRANDFILES):
-    rndfile = ""
-    for j in range(randint(1,5)):
-        rndfile += "     !byte $"+'{:02X}'.format(randint(0,255))+"\n"
-    text_file = open("ed_rndfile"+str(i+1)+".a", "w")
-    text_file.write(rndfile)
-    text_file.close()
+#Finally, generate some files with random bytes, for watermarking purposes
+# for i in range(NUMRANDFILES):
+#     rndfile = ""
+#     for j in range(randint(1,5)):
+#         rndfile += "     !byte $"+'{:02X}'.format(randint(0,255))+"\n"
+#     text_file = open("ed_rndfile"+str(i+1)+".a", "w")
+#     text_file.write(rndfile)
+#     text_file.close()
     
 

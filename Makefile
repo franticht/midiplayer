@@ -3,7 +3,7 @@
 # Assumes that all files named .a, .s, i., .inc., .asm are to be considered source files
 
 #Project specific settings
-NAME = midiplayer
+NAME = dronemon
 STARTADRESS = 0800
 STARTFILE	= start.a
 DATEFILE	= date.a

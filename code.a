@@ -9,13 +9,13 @@
 	jmp ed_mainloop
 
 	;Watermark
-	!src "ed_rndfile1.a"	;Watermarking
+;	!src "ed_rndfile1.a"	;Watermarking
 	!src "date.a"
 
 	;Player code
-	!src "ed_rndfile2.a"	;Watermarking
+;	!src "ed_rndfile2.a"	;Watermarking
 	!src "pl_main.a"
-	!src "ed_rndfile3.a"	;Watermarking
+;	!src "ed_rndfile3.a"	;Watermarking
 	!src "pl_data.a"
 ;	!src "pl_global_const.a"
 ;	!src "pl_midi_const.a"
@@ -26,13 +26,13 @@
 
 	;Editor
 	!src "ed_vars.a"
-	!src "ed_rndfile4.a"	;Watermarking
+;	!src "ed_rndfile4.a"	;Watermarking
 	!src "ed_init.a"
-	!src "ed_rndfile5.a"	;Watermarking
+;	!src "ed_rndfile5.a"	;Watermarking
 	!src "ed_interrupt.a"
-	!src "ed_rndfile6.a"	;Watermarking
+;	!src "ed_rndfile6.a"	;Watermarking
 	!src "ed_generic.a"
-	!src "ed_rndfile7.a"	;Watermarking
+;	!src "ed_rndfile7.a"	;Watermarking
 	!src "ed_mainloop.a"
-	!src "ed_rndfile8.a"	;Watermarking
+;	!src "ed_rndfile8.a"	;Watermarking
 
