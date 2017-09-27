@@ -1,0 +1,31 @@
+;INITIALIZE PLAYER
+
+pl_midi_init:
+
+	;Initialize the User Port = Set all pins to Output
+	;Question is... Should this be done before or after setting the $dd01 register to $00?
+	lda #$ff
+	sta $dd03
+	
+;	jsr ed_stopmusic ;Clears $dd01 too (and redundantly sets playmode to STOP)	
+	lda #$00 ;Clear both RUN bit and SYNC pulse bit
+	sta $dd01
+
+
+	;Clear all the state variables
+	ldx #pl_midi_statevars_length
+	lda #0
+-	sta pl_midi_statevars_begin-1,x
+	dex
+	bne -
+
+
+
+		;Set up Zeropage pointers
+;		lda #<pl_midi_sequence
+;		sta zp_player_lo
+;		lda #>pl_midi_sequence
+;		sta zp_player_hi
+
+
+		rts

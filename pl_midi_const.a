@@ -1,0 +1,7 @@
+
+PL_MIDI_NUMTRACKS = PL_GLOBAL_NUMTRACKS		;Number of MIDI tracks
+	!if PL_MIDI_NUMTRACKS > 127 {
+		!error "Can't have more than 127 MIDI tracks. Code uses BMI/BPL etc."
+	}
+
+;PL_MIDI_PVEL_DEFAULT = 100	;Default velocity = 100. Max velocity is 127.

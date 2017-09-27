@@ -1,0 +1,6 @@
+;ZERO PAGE VARIABLES (BSS kind of)
+
+
+zp_player = $fb
+zp_player_lo = $fb
+zp_player_hi = $fc
