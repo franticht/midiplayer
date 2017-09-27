@@ -1,3 +1,0 @@
-;EDITOR CONSTANTS
-
-TIMER_ONE_FRAME = $4cc7	;PAL framerate

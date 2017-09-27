@@ -1,28 +1,28 @@
 
 	;Constants	
-	!src "ed_const.inc"	;Editor constants
-	!src "ed_zp.inc"	;Also constants actually (BSS mem kind of)
+	!src "ed_const.a"	;Editor constants
+	!src "ed_zp.a"		;Also constants actually (BSS mem kind of)
 
 	;Main
-	!src "start.inc"	;Contains start adress. This is specified in the makefile and is also used by the packer(s)
+	!src "start.a"	;Contains start adress. This is specified in the makefile and is also used by the packer(s)
 	jsr ed_init
 	jmp ed_mainloop
 
 	;Watermark
-	!src "date.inc"
+	!src "date.a"
 
 	;MIDI Player
-	!src "pl_global_const.inc"
-	!src "pl_midi_const.inc"
-	!src "pl_midi_main.inc"
-	!src "pl_midi_init.inc"
-	!src "pl_midi_sendbyte_scannerboy2.inc"
-	!src "pl_midi_data.inc"
+	!src "pl_global_const.a"
+	!src "pl_midi_const.a"
+	!src "pl_midi_main.a"
+	!src "pl_midi_init.a"
+	!src "pl_midi_sendbyte_scannerboy2.a"
+	!src "pl_midi_data.a"
 
 	;Editor
-	!src "ed_vars.inc"
-	!src "ed_init.inc"
-	!src "ed_interrupt.inc"
-	!src "ed_generic.inc"
-	!src "ed_mainloop.inc"
+	!src "ed_vars.a"
+	!src "ed_init.a"
+	!src "ed_interrupt.a"
+	!src "ed_generic.a"
+	!src "ed_mainloop.a"
 
