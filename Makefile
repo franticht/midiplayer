@@ -5,8 +5,8 @@
 #Project specific settings
 NAME = midiplayer
 STARTADRESS = 0800
-STARTFILE	= start.inc
-DATEFILE	= date.inc
+STARTFILE	= start.a
+DATEFILE	= date.a
 POSTFIX		= #.exe
 
 # Names of main files and directories

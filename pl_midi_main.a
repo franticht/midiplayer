@@ -48,10 +48,6 @@ pl_midi_trackpos = *+1
 
 
 .nost1flag:
-
-
-
-
 		bpl .nontflag
 
 			;Note flag encountered
