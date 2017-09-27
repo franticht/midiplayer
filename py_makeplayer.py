@@ -1,27 +1,44 @@
 #!/opt/local/bin/python
 
+from random import randint
+
 #Configuration settings
+NUMRANDFILES = 8
 PL_NUMCHANNELS = 9
 PL_NUMSIDCHANNELS = 6   #3 for mono sid, 6 for stereo sid, or 9 for tripple sid...
+PL_NUMSONGPOSITIONS = 256
 PL_ZPSTART = 2
+
+
 
 #Variable init
 zpcounter = PL_ZPSTART
 playerfile = ""
 datafile = ""
 
-
 #Generate data file
 datafile += "; droneMON PLAYER DATA\n"
 datafile += "\n"
+datafile += "		; align code to page border for speed increase\n"
+datafile += "		!align 255, 0\n"
+datafile += "\n"
 datafile += "pl_seqptrs_lo:\n"
-datafile += "   !byte 0\n"
+for i in range(PL_NUMSONGPOSITIONS):
+    datafile += "	   !byte <pl_seq_"+'{:02X}'.format(i)+"\n"
 datafile += "\n"
 datafile += "pl_seqptrs_hi:\n"
-datafile += "   !byte 0\n"
+for i in range(PL_NUMSONGPOSITIONS):
+    datafile += "	   !byte >pl_seq_"+'{:02X}'.format(i)+"\n"
 datafile += "\n"
 for i in range(PL_NUMCHANNELS):
     datafile += "pl_v"+str(i).zfill(2)+"_seqlist:\n"
+    datafile += "		!fill PL_NUMSONGPOSITIONS, 0\n"
+    # datafile += "        !for i, PL_NUMSONGPOSITIONS {!byte i-1}\n"
+datafile += "\n"
+for i in range(PL_NUMSONGPOSITIONS):
+    datafile += "pl_seq_"+'{:02X}'.format(i)+":\n"
+    datafile += "		rts\n"
+datafile += "\n"
 
 
 
@@ -36,6 +53,8 @@ playerfile += ";============================\n"
 playerfile += ";Config constants\n"
 playerfile += "\n"
 playerfile += "PL_NUMCHANNELS = "+str(PL_NUMCHANNELS)+"\n"
+playerfile += "PL_NUMSIDCHANNELS = "+str(PL_NUMSIDCHANNELS)+"\n"
+playerfile += "PL_NUMSONGPOSITIONS = "+str(PL_NUMSONGPOSITIONS)+"\n"
 for i in range(PL_NUMCHANNELS):
     playerfile += "PL_ZP_VP"+str(i).zfill(2)+" = $"+'{:02X}'.format(zpcounter)+"\n"
     zpcounter += 2
@@ -103,3 +122,15 @@ text_file.close()
 text_file = open("pl_data.a", "w")
 text_file.write(datafile)
 text_file.close()
+
+#Finally, generate some files with random bytes
+
+for i in range(NUMRANDFILES):
+    rndfile = ""
+    for j in range(randint(1,5)):
+        rndfile += "     !byte $"+'{:02X}'.format(randint(0,255))+"\n"
+    text_file = open("ed_rndfile"+str(i+1)+".a", "w")
+    text_file.write(rndfile)
+    text_file.close()
+    
+
