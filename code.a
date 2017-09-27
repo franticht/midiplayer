@@ -11,13 +11,15 @@
 	;Watermark
 	!src "date.a"
 
-	;MIDI Player
-	!src "pl_global_const.a"
-	!src "pl_midi_const.a"
-	!src "pl_midi_main.a"
-	!src "pl_midi_init.a"
-	!src "pl_midi_sendbyte_scannerboy2.a"
-	!src "pl_midi_data.a"
+	;Player code
+	!src "pl_main.a"
+	!src "pl_data.a"
+;	!src "pl_global_const.a"
+;	!src "pl_midi_const.a"
+;	!src "pl_midi_main.a"
+;	!src "pl_midi_init.a"
+;	!src "pl_midi_sendbyte_scannerboy2.a"
+;	!src "pl_midi_data.a"
 
 	;Editor
 	!src "ed_vars.a"

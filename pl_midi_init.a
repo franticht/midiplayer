@@ -18,6 +18,11 @@ pl_midi_init:
 -	sta pl_midi_statevars_begin-1,x
 	dex
 	bne -
+	
+	;Set seqbreak flag to ensure that the player automagically initializes all the
+	;sequence pointers
+	lda #$ff
+	sta .seqbreakflag
 
 
 

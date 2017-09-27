@@ -56,7 +56,7 @@ $(TARGETDIR)/$(D64NAME) : $(TARGETDIR) $(TARGETDIR)/$(PRGNAME)
 
 #---------------------------------------------------------
 # Assemble .prg file
-$(TARGETDIR)/$(PRGNAME) : $(TARGETDIR) $(SRCNAME) $(SOURCEFILES) Makefile
+$(TARGETDIR)/$(PRGNAME) : $(TARGETDIR) $(SRCNAME) $(SOURCEFILES) Makefile pl_main.a
 	@date "+	"'!'"pet \"%Y-%m-%d %H:%M.%S\"" > $(DATEFILE)
 	@echo "	* = $$""$(STARTADRESS)" > $(STARTFILE)		#Generate start adress file
 	@echo " "
@@ -76,7 +76,11 @@ $(TARGETDIR)/$(PRGNAME) : $(TARGETDIR) $(SRCNAME) $(SOURCEFILES) Makefile
 #	@$(PUCRUNCH) -c64 -x0x$(STARTADRESS) -i0 -g0x35 -ffast $(TARGETDIR)/$(PRGNAME) $(TARGETDIR)/$(PRGNAME) > /dev/null
 	@echo " "
 
-
+#---------------------------------------------------------
+# Generate player code based on configuration settings
+pl_main.a pl_data.a: py_makeplayer.py
+	py_makeplayer.py
+	
 #---------------------------------------------------------
 # Create TARGETDIR directory if it doesn't exist
 $(TARGETDIR) :

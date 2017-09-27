@@ -83,7 +83,7 @@ ed_interrupt_nmi:
 		;Call player
 		lda #5
 		sta $d020
-		jsr pl_midi_main
+		jsr pl_main
 		lda ed_bgcol
 		sta $d021
 

@@ -13,60 +13,84 @@ pl_midi_main:
 
 		;---------------------------
 		; Sequence parsing
-		
-		ldx #PL_MIDI_NUMTRACKS-1
-		
-		
-		
-		
 
-		;---------------------------
-		; Sound Chunk parsing
-
-		ldx #PL_MIDI_NUMTRACKS-1
-
-
-pl_midi_trackpos = *+1
-		ldy #0
-		lda pl_midi_seq00,y
+		;First check for the sequence break flag
+.seqbreakflag = *+1
+		lda #0
 		bne .noseqbreak
 
-			;Sequence break encountered
-			;Fetch new sequence pointer for this editor channel
+			;Time to fetch a new sequence pointer
+			inc .songpos	;Bump to next
+.songpos = *+1
+			ldy #$00
+			
+			;Fetch pointer for v00
+			lax pl_v00_seqlist,y
+			lda pl_seqptrs_lo,x
+			sta vp00
+			lda pl_seqptrs_hi,x
+			sta vp00+1
+			
+			;Fetch pointer for v01
+			lax pl_v01_seqlist,y
+			lda pl_seqptrs_lo,x
+			sta vp01
+			lda pl_seqptrs_hi,x
+			sta vp01+1
+			
 
 
-			;Fetch new control byte
-			lda pl_midi_seq00,y
+
 .noseqbreak:
-		bpl .nost1flag
 
-			;ST1 flag encountered
-			iny
-			lda pl_midi_seq00,y
-			sta pl_midi_st1orgpos,x
-			sta pl_midi_st1pos,x
+		ldx #PL_MIDI_NUMTRACKS-1
 
+;pl_midi_trackpos = *+1
+;		ldy #0
+;		lda pl_midi_seq00,y
+;		bne .noseqbreak
+;
+;			;Sequence break encountered
+;			;Fetch new sequence pointer for this editor channel
+;
+;
+;			;Fetch new control byte
+;			lda pl_midi_seq00,y
+;.noseqbreak:
+;		bpl .nost1flag
+;
+;			;ST1 flag encountered
+;			iny
+;			lda pl_midi_seq00,y
+;			sta pl_midi_st1orgpos,x
+;			sta pl_midi_st1pos,x
+;
+;
+;.nost1flag:
+;		bpl .nontflag
+;
+;			;Note flag encountered
+;			iny
+;			lda pl_midi_seq00,y
+;			bpl .nonoteonevent
+;				
+;				;Note range 0-127 automatically reuses the last used ST1 value
+;				and #$7f
+;				sta pl_midi_basenote,x
+;				sta pl_midi_relnote,x	;Setting basenote and relnote equal for the time being
+;				
+;				;Restore last used ST1 position
+;				lda pl_midi_st1orgpos,x
+;				sta pl_midi_st1pos,x
+;				
+;.nonoteonevent:
+;
+;.nontflag:
+;
 
-.nost1flag:
-		bpl .nontflag
+;---------------------------
+; Sound Chunk parsing
 
-			;Note flag encountered
-			iny
-			lda pl_midi_seq00,y
-			bpl .nonoteonevent
-				
-				;Note range 0-127 automatically reuses the last used ST1 value
-				and #$7f
-				sta pl_midi_basenote,x
-				sta pl_midi_relnote,x	;Setting basenote and relnote equal for the time being
-				
-				;Restore last used ST1 position
-				lda pl_midi_st1orgpos,x
-				sta pl_midi_st1pos,x
-				
-.nonoteonevent:
-
-.nontflag:
 
 	;Custom sound setup
 	ldx #0

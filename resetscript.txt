@@ -1,0 +1,2 @@
+reset-c64
+send
