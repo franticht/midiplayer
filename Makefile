@@ -118,6 +118,8 @@ clean :
 	@echo "*************************"
 	@echo "* Cleaning...           *"
 	@echo " "
+	$(RM) -f pl_main.a
+	$(RM) -f pl_data.a
 	$(RM) -f $(STARTFILE)
 	$(RM) -f $(DATEFILE)
 	$(RM) -f $(TARGETDIR)/$(PRGNAME)
