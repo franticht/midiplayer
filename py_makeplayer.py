@@ -5,7 +5,7 @@ import os
 
 #Configuration settings
 NUMRANDFILES = 8
-PL_NUMCHANNELS = 9
+PL_NUMCHANNELS = 4*3
 PL_NUMSIDCHANNELS = 6   #3 for mono sid, 6 for stereo sid, or 9 for tripple sid...
 PL_NUMSONGPOSITIONS = 256
 PL_ZPSTART = 2
@@ -121,6 +121,13 @@ nbytes = 1
 pf += ";Delay counters (steps, not ticks, between each note)\n"
 for i in range(PL_NUMCHANNELS):
     pf += "PL_ZP_CHN"+str(i).zfill(2)+"_DELAY = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
+    zpcounter += nbytes
+pf += "\n"
+
+nbytes = 1
+pf += ";Multispeed coefficients (separately for each channel)\n"
+for i in range(PL_NUMCHANNELS):
+    pf += "PL_ZP_CHN"+str(i).zfill(2)+"_MULSPEED = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
     zpcounter += nbytes
 pf += "\n"
 

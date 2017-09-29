@@ -8,7 +8,7 @@ ed_init:
 	sta $01
 	
 	;Clear screen
-	lda #5
+	lda #12
 	sta $d020
 	lda ed_bgcol
 	sta $d021
