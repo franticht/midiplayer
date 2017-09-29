@@ -5,7 +5,7 @@ import os
 
 #Configuration settings
 NUMRANDFILES = 8
-PL_NUMCHANNELS = 4*3
+PL_NUMCHANNELS = 3*3
 PL_NUMSIDCHANNELS = 6   #3 for mono sid, 6 for stereo sid, or 9 for tripple sid...
 PL_NUMSONGPOSITIONS = 256
 PL_ZPSTART = 2
