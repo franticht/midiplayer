@@ -1,0 +1,102 @@
+;Special MIDI functions for general purpose things like NOTE ON, NOTE OFF, and so on.
+
+
+;------------------------------------------------------------
+pl_midi_noteon:
+	lda PL_ZP_CHN00_MIDI_PROGRAM,x	;Current MIDI Program used in this track (0-15)
+	ora #$90				;$9x = NOTE ON
+	jsr pl_midi_sendbyte
+	lda PL_ZP_CHN00_RELNOTE,x	;Send NOTE
+	jsr pl_midi_sendbyte
+	lda PL_ZP_CHN00_MIDI_VELOCITY,x	;Send VELOCITY
+	jsr pl_midi_sendbyte
+	rts
+		
+
+;------------------------------------------------------------
+; This function sends a midi byte through Scannerboy's sync interface
+; It requires the inofficial version 2 of that firmware
+
+pl_midi_sendbyte:
+	dec $d020
+	stx pl_midi_sendbyte_savex
+	sty pl_midi_sendbyte_savey
+	ldy #0
+
+	;Start with a "new byte is coming" message
+	ldx #%00001000
+	stx $dd01
+	ldx #%00001100
+	stx $dd01
+	sty $dd01
+
+	;Send bit 7
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 6
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 5
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 4
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 3
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 2
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 1
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+	;Send bit 0
+	ldx #%00001011	;2
+	asl				;2		Move msb to carry
+	bcc +			;2/3	
+	inx				;2
++	stx $dd01		;4		X is now #00001011 or #00001100 depending on value of the carry
+	sty $dd01		;4		Set both bits back to 00
+
+pl_midi_sendbyte_savex = *+1
+	ldx #0
+pl_midi_sendbyte_savey = *+1
+	ldy #0
+	inc $d020
+	rts
