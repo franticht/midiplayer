@@ -306,23 +306,17 @@ pf += """\
 
 ;============================
 pl_init:
-        ;Ensure that the first step is executed at once 
+        ;FIRST: Clear all ZP variables
+        ldy #PL_ZP_END-PL_ZP_START
+        lda #0
+-       sta PL_ZP_START-1,y
+        dey
+        bne -
+
+        ;THEN: Ensure that the first step is executed at once 
 		lda #1
 		sta PL_ZP_TICKCOUNTER
-        
-        ;Clear ZP variables
-        ldy #PL_ZP_END-PL_ZP_START-1
-        lda #0
--       sta PL_ZP_START,y
-        dey
-        cpy #$ff
-        bne -
-        
-        ;Set a bunch of things to zero
-        ldx #PL_NUMCHANNELS
--       sta PL_ZP_CHN00_DELAY,x
-        dex
-        bpl -
+                
         rts
 		;---
 

@@ -15,6 +15,7 @@
 	;Player code
 ;	!src "ed_rndfile2.a"	;Watermarking
 	!src "pl_main.a"
+	!src "pl_midi.a"
 ;	!src "ed_rndfile3.a"	;Watermarking
 	!src "pl_data.a"
 ;	!src "pl_global_const.a"
