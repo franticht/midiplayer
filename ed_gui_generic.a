@@ -68,6 +68,14 @@ ed_printbyte:
 	sta $0400
 	rts
 
+ed_printbyte2:
+	tax
+	lda ed_hextab_lo,x
+	sta $0401+3
+	lda ed_hextab_hi,x
+	sta $0400+3
+	rts
+
 !align 255,0
 ed_hextab_lo:
 !for i, 16 {

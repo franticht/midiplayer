@@ -57,9 +57,14 @@ for i in range(PL_NUMCHANNELS):
 df += "\n"
 for i in range(PL_NUMSONGPOSITIONS):
     df += "pl_seq_"+'{:02X}'.format(i)+":\n"
-    if (i == 0):
-        df += "		lda #0\n"
-    df += "		rts\n"
+    if (i == 1):
+        df += "        !byte %10011111\t;One note and then 32 steps of empty sequence\n"
+        df += "        !byte $80 + 12*4\t;The note + TRIG\n"
+    else:
+        df += "        !byte %00011111\t;32 steps of empty sequence\n"
+    # if (i == 0):
+    #     df += "        lda #0\n"
+    # df += "        rts\n"
 df += "\n"
 
 
@@ -210,9 +215,11 @@ pl_main:
 for i in range(PL_NUMCHANNELS):
     pf += "			;Fetch pointer for chn"+str(i).zfill(2)+"\n"
     pf += "			ldy PL_ZP_CHN"+str(i).zfill(2)+"_SONGPOS\t;Allow separate song positions for each channel (like ableton live mode).\n"
+    pf += "			tya\n"
+    pf += "			jsr ed_printbyte\n"
     pf += "			lax pl_chn"+str(i).zfill(2)+"_seqlist,y\n"
-    if i == 0:
-        pf += "			jsr ed_printbyte\n"
+    # if i == 0:
+    #     pf += "            jsr ed_printbyte\n"
     pf += "			lda pl_seqptrs_lo,x\n"
     pf += "			sta PL_ZP_CHN"+str(i).zfill(2)+"\n"
     pf += "			lda pl_seqptrs_hi,x\n"
@@ -233,6 +240,8 @@ pf += """\
 
 		;Decide what to do on different player ticks (0 = seqparse, 3 = pretrig, 1,2,4,5 = do nothing)
         ldx PL_ZP_TICKCOUNTER
+        txa
+        jsr ed_printbyte2
 		lda pl_tickaction,x
 		beq .tick00\t;00 in the table means tick00 (seqparse)
 		bpl .tick03\t;01 in the table means tick03 (pretrig)
@@ -292,6 +301,7 @@ for i in range(PL_NUMCHANNELS):
         bpl +
             ldy PL_ZP_CHN"""+str(i).zfill(2)+"""_SEQPOS
             lda (PL_ZP_CHN"""+str(i).zfill(2)+"""),y	;Read control byte
+            sta $0400+2*40+"""+str(i).zfill(2)+"""
 +
         ;OBS: Det måste finnas något sätt att skippa steps i traxxet
         
