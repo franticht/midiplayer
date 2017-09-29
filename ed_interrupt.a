@@ -1,6 +1,15 @@
 
+;OBS Anders poäng att defmon inte kan vara master i ett långt jam eftersom man måste
+;bryta när man laddar en ny låt.
+
+;OBS 2: Göra shuffle genom modifikation av timer-interruptet snarare än att ändra
+;antalet tix
+
+
 ;------------------------
 ed_interrupt_editor:
+
+	;...men börja med att spara ner zeropage just på $d000 kanske?
 
 	;Use all mem apart from $d000-$dfff
 	sei

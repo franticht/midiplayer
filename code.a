@@ -31,7 +31,7 @@
 ;	!src "ed_rndfile5.a"	;Watermarking
 	!src "ed_interrupt.a"
 ;	!src "ed_rndfile6.a"	;Watermarking
-	!src "ed_generic.a"
+	!src "ed_gui_generic.a"
 ;	!src "ed_rndfile7.a"	;Watermarking
 	!src "ed_mainloop.a"
 ;	!src "ed_rndfile8.a"	;Watermarking
