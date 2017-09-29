@@ -56,4 +56,37 @@ ed_waitvbl:
 	bpl -
 
 	rts
-	
+
+;--------------------------------------------
+;Wait for line 0
+
+ed_printbyte:
+	tax
+	lda ed_hextab_lo,x
+	sta $0401
+	lda ed_hextab_hi,x
+	sta $0400
+	rts
+
+!align 255,0
+ed_hextab_lo:
+!for i, 16 {
+	!for j, 16 {
+		!if j<11 {
+			!byte $2f+j ;+$30 to make screen code out of it
+		} else {
+			!byte j-10 ;+$01 to make screen code out of it
+		}
+	}
+}
+
+ed_hextab_hi:
+!for i, 16 {
+	!for j, 16 {
+		!if i<11 {
+			!byte $2f+i ;+$30 to make screen code out of it
+		} else {
+			!byte i-10 ;+$01 to make screen code out of it
+		}
+	}
+}
