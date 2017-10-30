@@ -1,0 +1,301 @@
+;This macro generates NOP delays of 2 to X cycles that do not change any registers or flags
+!macro CLEANWAIT .cycles {
+
+	!if .cycles = 2 {
+		nop	;2
+	}
+	
+	!if .cycles = 3 {
+		!byte $04,$ff	;NOP $ff = 3 cycles
+	}
+
+	!if .cycles = 4 {
+		nop
+		nop
+	}
+
+	!if .cycles > 4 {
+		+CLEANWAIT .cycles-3
+		+CLEANWAIT 3
+	}
+}
+
+;Macro by Christopher Jam
+!macro WAITMIN14 .cycles {
+	jsr wait14+14-(.cycles)
+}
+
+
+;Based on the minimal bytes discussion at CSDb. ...and this thread:
+; http://csdb.dk/forums/?roomid=11&topicid=126260
+
+;minimal bytes
+; preserves a,x,y,sp
+; may clobber stack and flags
+!macro WAIT .cycles {
+	;Wait X number of cycles
+	!if .cycles < 2 {
+		!error "WAIT MACRO: Can't wait less than 2 cycles!"
+	}
+   
+	!if .cycles = 2 {
+		; 2 cycles (1 byte)
+		nop
+	}
+
+	!if .cycles = 3 {
+		; 3 cycles (2 bytes)
+		bit 3
+	}
+   
+	!if .cycles = 4 {
+		; 4 cycles (2 bytes)
+		nop
+		nop
+	}
+
+	!if .cycles = 5 {
+		; 5 cycles (3 bytes)
+		nop
+		bit 3
+	}
+
+	!if .cycles = 6 {
+		; 6 cycles (2 bytes)
+		cmp (0,x)	;Cute, but beware of inadvertently touching I/O register with side-effects on read (i.e. $DC0D or $DD0D).
+	}
+
+	!if .cycles = 7 {
+		; 7 cycles (2 bytes)
+		pha
+		pla
+	}
+
+	!if .cycles = 8 {
+		; 8 cycles (3 bytes)
+		nop
+		cmp (0,x)	;Cute, but beware of inadvertently touching I/O register with side-effects on read (i.e. $DC0D or $DD0D).
+	}
+
+	!if .cycles = 9 {
+		; 9 cycles (3 bytes)
+		pha
+		nop
+		pla
+	}
+
+	!if .cycles = 10 {
+		;10 cycles (4 bytes)
+		pha
+		bit 3
+		pla
+	}
+
+	!if .cycles = 11 {
+		;11 cycles (4 bytes)
+		pha
+		nop
+		nop
+		pla
+	}
+
+	!if .cycles = 12 {
+		;12 cycles (5 bytes)
+		pha
+		nop
+		bit 3
+		pla
+	}
+
+	!if .cycles = 13 {
+		;13 cycles (4 bytes)
+		pha
+		cmp (0,x)	;Cute, but beware of inadvertently touching I/O register with side-effects on read (i.e. $DC0D or $DD0D).
+		pla
+	}
+
+	!if .cycles = 14 {
+		;14 cycles (4 bytes)
+		pha
+		pha
+		pla
+		pla
+	}
+   
+	!if .cycles = 15 {
+		;15 cycles (5 bytes)
+		pha
+		cmp (0,x)	;Cute, but beware of inadvertently touching I/O register with side-effects on read (i.e. $DC0D or $DD0D).
+		nop
+		pla
+	}
+
+	!if .cycles = 16 {
+		;16 cycles (5 bytes)
+		pha
+		pha
+		nop
+		pla
+		pla
+	}
+
+	!if .cycles = 17 {
+		;17 cycles (6 bytes)
+		pha
+		pha
+		bit $00
+		pla
+		pla
+	}
+
+	!if .cycles = 18 {
+		;18 cycles (6 bytes)
+		pha
+		pha
+		nop
+		nop
+		pla
+		pla
+	}
+
+	!if .cycles = 19 {
+		;19 cycles (7 bytes)
+		pha
+		pha
+		nop
+		bit $00
+		pla
+		pla
+	}
+
+	!if .cycles = 20 {
+		;20 cycles (6 bytes)
+	    pha
+	    pha
+		cmp (0,x)	;Cute, but beware of inadvertently touching I/O register with side-effects on read (i.e. $DC0D or $DD0D).
+	    pla
+	    pla
+	}
+
+	!if .cycles = 21 {
+		;21 cycles (6 bytes)
+		pha
+		pha
+		pha
+		pla
+		pla
+		pla
+	}
+
+	!if .cycles > 21 {
+		+WAIT .cycles-19
+		+WAIT 19
+	}
+
+;	;INTE BRA MED BRANCHES HÄR, OM MAN KORSAR EN PAGE BOUNDARY
+;	!if .cycles = 22 {
+;		;22 cycles (8 bytes)
+;		pha
+;		lda #%00000010
+;		lsr
+;		nop
+;		bcc *-2
+;		pla
+;	}
+;
+;	;INTE BRA MED BRANCHES HÄR, OM MAN KORSAR EN PAGE BOUNDARY
+;	!if .cycles = 23 {
+;		;23 cycles (7 bytes)
+;		pha
+;		lda #%00000100
+;		lsr
+;		bcc *-1
+;		pla
+;	}
+;
+;;	!if .cycles = 24 {
+;		!if waitN {
+;			lda #88-x
+;			jsr waitN
+;		} else {
+;			!error "waitN routine not defined. See http://csdb.dk/forums/?roomid=11&topicid=126260."
+;		}
+;	}
+
+
+
+
+;		!if .cycles = 24 {
+;			;24 cycles (8 bytes)
+;			pha
+;			pha
+;			pha
+;			bit $00
+;			pla
+;			pla
+;			pla
+;		}
+;	
+;	!if .cycles = 25 {
+;		;25 cycles (8 bytes)
+;		pha
+;		lda #%00000100
+;		lsr
+;		bcc *-1
+;		nop
+;		pla
+;	}
+;
+;	!if .cycles = 26 {
+;		;26 cycles (9 bytes)
+;	    pha
+;	    pha
+;	    pha
+;	    nop
+;	    bit $00
+;	    pla
+;	    pla
+;	    pla
+;	}
+;
+;	!if .cycles = 27 {
+;		;27 cycles (8 bytes)
+;		pha
+;		pha
+;		pha
+;		cmp (0,x)
+;		pla
+;		pla
+;		pla
+;	}
+;	
+;	!if .cycles = 28 {
+;		;28 cycles (7 bytes)
+;		pha
+;		lda #%00001000
+;		lsr
+;		bcc *-1
+;		pla
+;	}
+;
+;	!if .cycles = 29 {
+;	}
+;	
+   
+   
+;   !if .cycles > 14 {
+;	   !error "WAIT MACRO: Can't wait more than 14 cycles! Attempted to wait: ",.cycles
+;   }
+;   
+}
+
+
+
+
+
+
+
+
+
+
+

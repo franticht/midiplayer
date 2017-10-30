@@ -1,0 +1,7 @@
+;For the Christopher Jam WAITMIN14 macro
+    !fill 64,$80   ; NOP#nn
+    !byte $04      ; NOP zp
+wait14
+    nop
+wait12
+    rts
