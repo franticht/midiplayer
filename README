@@ -2,3 +2,4 @@ MIDIPLAYER
 ==========
 
 A simple player for the C64 that sends MIDI OUT data through Scannerboy's interface.
+Currently it is even far from beta version state as much work remains to be done.
