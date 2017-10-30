@@ -50,10 +50,14 @@ ed_clearcolorram:
 ;Wait for line 0
 
 ed_waitvbl:
--	bit $d011
-	bmi -
--	bit $d011
-	bpl -
+;-	bit $d011
+;	bmi -
+;-	bit $d011
+;	bpl -
+
+	lda #$fb
+-	cmp $d012
+	bne -
 
 	rts
 

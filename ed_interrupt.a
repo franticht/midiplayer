@@ -92,9 +92,12 @@ ed_interrupt_nmi:
 		;Call player
 ;		lda #5
 ;		sta $d020
-		inc $d020
-		jsr pl_main
+;		inc $d020
+;		jsr stabiliseRC3
+;		dec $d020
 		dec $d020
+		jsr pl_main
+		inc $d020
 ;		lda ed_bgcol
 ;		sta $d021
 
@@ -119,6 +122,8 @@ ed_irq_nmi_savey = *+1
 ; IRQ INTERRUPT CODE
 
 ed_interrupt_irq:
+	dec $d020
+	dec $d020
 ;	sta ed_irq_irq_savea
 ;	stx ed_irq_irq_savex
 ;	sty ed_irq_irq_savey				
@@ -132,6 +137,9 @@ ed_interrupt_irq:
 ;	ldx #0
 ;ed_irq_irq_savey = *+1
 ;	ldy #0
+
+	inc $d020
+	inc $d020
 
 	;Ack Raster IRQ (clear irq flags)
 	asl $d019

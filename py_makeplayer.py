@@ -261,13 +261,18 @@ pf += """\
 # Sequence break is handled by setting the PL_ZP_TICKCOUNTER variable directly from a sound chunk
 #
 #CTRL:
-# b7 - NT   (implies one byte 00-7f = set note only, 80-ff set note+TRIG)
+# b7 - NT   (implies one byte 00-7f = set note only, 80-ff set note+PRETRIG)
 # b6 - S1   (implies one byte of sound chunk pointer. If that is in range 80-ff that implies one more byte of PARAMETER)
 # b5 - S2   (implies one byte of sound chunk pointer. If that is in range 80-ff that implies one more byte of PARAMETER)
 # b4-b0     (...corresponds to a 5bit number of pattern steps until the next one. Max = 32 = one whole sequence)
 #
 # NT  S1 P  S2
 # C-4 4F -- --
+
+# Vad betyder TRIG?
+# Betyder det att man kör pretrig för nuvarande sound chunk? Betyder det ett NOTE ON msg för MIDI?
+# Nja det betyder väl just pretrig för nuvarande sound chunk. Det är väl just den grejen som behöver en specialare.
+
 
 # Om det är 3 ticks kvar till nästa så gör man en lookahead.
 # (MEN MÅSTE DET ALLTID VARA JUST 3 TICKS? JA KANSKE? FÖR ENKELHETENS SKULL?)
