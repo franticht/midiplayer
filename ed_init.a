@@ -28,4 +28,4 @@ ed_init:
 	;Initialize interrupts
 	jsr ed_interrupt_editor
 
-	rts
+;	rts

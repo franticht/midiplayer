@@ -6,31 +6,18 @@
 	!src "ed_const.a"	;Editor constants
 	!src "ed_zp.a"		;Also constants actually (BSS mem kind of)
 
+	;----------------------------
+	; Program flow starts here
+	
 	;Main
-	!src "start.a"	;Contains start adress. This is specified in the makefile and is also used by the packer(s)
-	jsr ed_init
-	
-	jmp *
-	+CLEANWAIT 2
-	jmp *
-	+CLEANWAIT 3
-	jmp *
-	+CLEANWAIT 4
-	jmp *
-	+CLEANWAIT 5
-	jmp *
-	+CLEANWAIT 6
-	jmp *
-	+CLEANWAIT 7
-	jmp *
-	+CLEANWAIT 8
-	jmp *
-	+CLEANWAIT 9
-	jmp *
-	+CLEANWAIT 10
-	
-	jmp ed_mainloop
+	!src "start.a"			;Contains start adress. This is specified in the makefile and is also used by the packer(s)
+	!src "ed_init.a"		;Including this directly into the program flow, instead of calling as a subroutine
+;	jsr ed_init
+	!src "ed_mainloop.a"	;Including this directly into the program flow, instead of calling as a subroutine
+;	jmp ed_mainloop
 
+	;----------------------------
+	
 	;Watermark
 ;	!src "ed_rndfile1.a"	;Watermarking
 	!src "date.a"
@@ -55,12 +42,12 @@
 	;Editor
 	!src "ed_vars.a"
 ;	!src "ed_rndfile4.a"	;Watermarking
-	!src "ed_init.a"
+;	!src "ed_init.a"
 ;	!src "ed_rndfile5.a"	;Watermarking
 	!src "ed_interrupt.a"
 ;	!src "ed_rndfile6.a"	;Watermarking
 	!src "ed_gui_generic.a"
 ;	!src "ed_rndfile7.a"	;Watermarking
-	!src "ed_mainloop.a"
+;	!src "ed_mainloop.a"
 ;	!src "ed_rndfile8.a"	;Watermarking
 
