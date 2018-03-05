@@ -1,0 +1,90 @@
+;------------------------------------------------------------------------------
+; stabiliseRC3                                                                ;
+;                                                                             ;
+;    place SID in a known state, with quiescent env3 and ADSR=0000            ;
+;                                                                             ;
+;    All DMA and interrupts must be disabled for the last 600 cycles          ;
+;                                                                             ;
+;------------------------------------------------------------------------------
+
+	!align $ff,0
+
+stabiliseRC3:
+;	lda#$00
+;	sta SID1+2*7+5	;v3AD
+;	sta SID1+2*7+4	;v3CR
+;	lda#$f0
+;	sta SID1+2*7+6	;v3SR
+;
+;	ldy#25         ; wait >0x7fff cycles to recapture
+;	ldx#128
+;-	dex
+;	bne -
+;	dey
+;	bpl -
+;
+;	lda#$01
+;	sta SID1+2*7+4	;v3CR       ; start rise to $ff
+;
+;	ldx#205        ; wait >256*9 cycles for rise to maximum
+;-	dex
+;	bne -
+;	dex
+;	bne -
+	               ; from this point on, timing is critical
+	lda#$02
+	ldx#$01
+	ldy#$00
+!for i, 7 {
+;.repeat 7          ; here's where the magic happens.  Potential RC values are released
+	sta   SID1+2*7+5	;v3AD     ; one at a time into a 63 cycle bottle, at intervals multiples of
+	jsr wait20     ; 9 cycles apart
+	stx   SID1+2*7+5	;v3AD
+	nop
+	nop
+	sty   SID1+2*7+5	;v3AD
+;.endrep
+}
+	sta   SID1+2*7+5	;v3AD
+	+WAIT 18      ; wait 18 cycles (clobbers Y, as ncycles>7)
+
+	lda#$44        ; rate 4, limit 149
+	stx SID1+2*7+5	;v3AD
+	sta SID1+2*7+5	;v3AD
+	sta SID1+2*7+6	;v3SR
+	               ; rate counter should now be one of 9 different values that
+	               ; are all equal modulo 9, in the range 0 to 99
+	lda#$00
+	sta SID1+2*7+4	;v3CR       ; ADSR=$4444, env=$ff, switching to release
+
+	+WAIT 170     ; wait for env to drop to $fe
+	ldx#$01        ; request attack
+	stx SID1+2*7+4	;v3CR       ; we've now a few cycles grace before env reaches ff in which to switch ADSR to $40f0 
+
+	lda#$40
+	sta SID1+2*7+5	;v3AD
+	lda#$f0
+	sta SID1+2*7+6	;v3SR
+	+WAIT 99      ; wait for the entire packet of potential values to be captured into the 9 cycle decay limit loop
+	               ; now ADSR = 40f0, RC is synchronised, env=$ff 
+
+	lda #$11       ; next we need to force overflow
+	sta SID1+2*7+5	;v3AD       ; by switching to decay, then back to attack before env drops below $ff
+	lda#$f1        ; we do this at a rate of 1 (RC limit of 31) to give us time for register fiddling.
+	sta SID1+2*7+6	;v3SR
+	ldx #0
+	stx SID1+2*7+4	;v3CR       ; drop into decay
+
+	ldx #1
+	stx SID1+2*7+4	;v3CR       ; return to attack - this'll increase env to $00
+	+WAIT 5
+	lda#$00        ; recapture to the fastest rate
+	sta SID1+2*7+5	;v3AD       ; this write must be performed while RC<9, or we'll trigger the bug again.
+	sta SID1+2*7+6	;v3SR
+	sta SID1+2*7+4	;v3CR       ; and drop back to release state
+	rts
+
+wait20:
+	nop
+	cmp (0,x)
+	rts

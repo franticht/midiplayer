@@ -1,0 +1,207 @@
+; MIDI PLAYER
+
+
+pl_midi_main:
+
+
+			;TEMPORARY TWEAK TO MAKE OUTPUT VISIBLE
+			lda #1
+			jsr ed_clearcolorram
+
+
+
+
+		;---------------------------
+		; Sequence parsing
+
+		;First check for the sequence break flag
+.seqbreakflag = *+1
+		lda #0
+		bne .noseqbreak
+
+			;Time to fetch a new sequence pointer
+			inc .songpos	;Bump to next
+.songpos = *+1
+			ldy #$00
+			
+			;Fetch pointer for v00
+			lax pl_v00_seqlist,y
+			lda pl_seqptrs_lo,x
+			sta vp00
+			lda pl_seqptrs_hi,x
+			sta vp00+1
+			
+			;Fetch pointer for v01
+			lax pl_v01_seqlist,y
+			lda pl_seqptrs_lo,x
+			sta vp01
+			lda pl_seqptrs_hi,x
+			sta vp01+1
+			
+
+
+
+.noseqbreak:
+
+		ldx #PL_MIDI_NUMTRACKS-1
+
+;pl_midi_trackpos = *+1
+;		ldy #0
+;		lda pl_midi_seq00,y
+;		bne .noseqbreak
+;
+;			;Sequence break encountered
+;			;Fetch new sequence pointer for this editor channel
+;
+;
+;			;Fetch new control byte
+;			lda pl_midi_seq00,y
+;.noseqbreak:
+;		bpl .nost1flag
+;
+;			;ST1 flag encountered
+;			iny
+;			lda pl_midi_seq00,y
+;			sta pl_midi_st1orgpos,x
+;			sta pl_midi_st1pos,x
+;
+;
+;.nost1flag:
+;		bpl .nontflag
+;
+;			;Note flag encountered
+;			iny
+;			lda pl_midi_seq00,y
+;			bpl .nonoteonevent
+;				
+;				;Note range 0-127 automatically reuses the last used ST1 value
+;				and #$7f
+;				sta pl_midi_basenote,x
+;				sta pl_midi_relnote,x	;Setting basenote and relnote equal for the time being
+;				
+;				;Restore last used ST1 position
+;				lda pl_midi_st1orgpos,x
+;				sta pl_midi_st1pos,x
+;				
+;.nonoteonevent:
+;
+;.nontflag:
+;
+
+;---------------------------
+; Sound Chunk parsing
+
+
+	;Custom sound setup
+	ldx #0
+	lda #1
+	sta pl_midi_channel,x
+	lda #24
+	sta pl_midi_relnote,x
+	sta pl_midi_basenote,x
+	lda #100 ;PL_MIDI_PVEL_DEFAULT
+	sta pl_midi_velocity,x
+
+	ldx #1
+	lda #9
+	sta pl_midi_channel,x
+	lda #24+5
+	sta pl_midi_relnote,x
+	sta pl_midi_basenote,x
+	lda #100 ;PL_MIDI_PVEL_DEFAULT
+	sta pl_midi_velocity,x
+	
+
+
+		;Parse new MIDI byte
+;		ldx #0					;CURRENT TRACK
+		ldx #PL_MIDI_NUMTRACKS-1
+		ldx #1
+-		jsr pl_midi_schunk00		
+		
+		
+		lda pl_midi_basenote,x
+		sta $0400+40*0,x
+		lda pl_midi_relnote,x
+		sta $0400+40*1,x
+		lda pl_midi_channel,x
+		sta $0400+40*2,x
+		lda pl_midi_velocity,x
+		sta $0400+40*3,x
+		
+		dex
+		bpl -
+
+
+	
+
+
+	rts
+;------------------------------	
+; MIDI PLAYER SEQUENCES
+; All of them initialized with 0
+; in the init routine.
+
+PL_MIDI_ST1FLAG		= %10000000
+PL_MIDI_ST2FLAG		= %01000000
+PL_MIDI_NTFLAG		= %00100000
+PL_MIDI_PARAMFLAG	= %00010000
+
+
+pl_midi_seq00:
+	!byte PL_MIDI_NTFLAG | PL_MIDI_ST1FLAG, 24, 1
+	!byte $00	;SEQ BREAK
+
+;------------------------------	
+; MIDI PLAYER STATE VARIABLES
+; All of them initialized with 0
+; in the init routine.
+
+
+pl_midi_statevars_begin:
+pl_midi_st1pos:
+	!fill PL_MIDI_NUMTRACKS,0						;
+pl_midi_st1orgpos:
+	!fill PL_MIDI_NUMTRACKS,0						;
+pl_midi_st2pos:
+	!fill PL_MIDI_NUMTRACKS,0						;
+pl_midi_basenote:
+	!fill PL_MIDI_NUMTRACKS,0						;Default basenote is 0. (MIDI note range is 0-127)
+pl_midi_relnote:
+	!fill PL_MIDI_NUMTRACKS,0						;Default relnote (for arpeggio etc) is 0. (MIDI note range is 0-127)
+pl_midi_channel:
+	!fill PL_MIDI_NUMTRACKS,0						;Current MIDI channel in this track. (MIDI program range is 0-15)
+pl_midi_velocity:
+	!fill PL_MIDI_NUMTRACKS,0						;Default velocity is 100 (max is 127)
+pl_midi_statevars_end:
+pl_midi_statevars_length = pl_midi_statevars_end-pl_midi_statevars_begin
+	
+	!if pl_midi_statevars_length > 255 {
+		!error "MIDI player state variables take up too much space: ", pl_midi_statevars_length, " bytes."
+	}
+	
+
+;------------------------------	
+;NOTE ON
+;A/X/Y
+pl_midi_noteon:
+		lda pl_midi_channel,x	;Current MIDI Program used in this track (0-15)
+		ora #$90				;$9x = NOTE ON
+		jsr pl_midi_sendbyte
+		lda pl_midi_relnote,x	;Send NOTE
+		jsr pl_midi_sendbyte
+		lda pl_midi_velocity,x	;Send VELOCITY
+		jsr pl_midi_sendbyte
+		rts
+	
+pl_midi_schunkptrs_lo = *+1
+		!byte <pl_midi_schunk00
+
+pl_midi_schunkptrs_hi = *+1
+		!byte >pl_midi_schunk00
+		
+	
+pl_midi_schunk00:
+		jsr pl_midi_noteon
+		rts
+		

@@ -1,0 +1,4 @@
+2017-11-17 12:15:03.265 x64sc[29121:2016776] 12:15:03.264 WARNING:  140: This application, or a library it uses, is using the deprecated Carbon Component Manager for hosting Audio Units. Support for this will be removed in a future release. Also, this makes the host incompatible with version 3 audio units. Please transition to the API's in AudioComponent.h.
+HW scale not available, forcing to disabled
+Reading configuration file `/Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc'.
+HW scale not available, forcing to disabled
