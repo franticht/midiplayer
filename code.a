@@ -11,10 +11,10 @@
 	
 	;Main
 	!src "start.a"			;Contains start adress. This is specified in the makefile and is also used by the packer(s)
-	!src "ed_init.a"		;Including this directly into the program flow, instead of calling as a subroutine
 ;	jsr ed_init
-	!src "ed_mainloop.a"	;Including this directly into the program flow, instead of calling as a subroutine
+	!src "ed_init.a"		;Including this directly into the program flow, instead of calling as a subroutine
 ;	jmp ed_mainloop
+	!src "ed_mainloop.a"	;Including this directly into the program flow, instead of calling as a subroutine
 
 	;----------------------------
 	

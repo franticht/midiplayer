@@ -1,5 +1,6 @@
 ;GENERIC ROUTINES
-
+;
+; Contains small routines that would be resuable in many kinds of programs. Not just this one.
 
 
 ;--------------------------------------------
@@ -62,7 +63,7 @@ ed_waitvbl:
 	rts
 
 ;--------------------------------------------
-;Wait for line 0
+;Print byte on screen
 
 ed_printbyte:
 	tax

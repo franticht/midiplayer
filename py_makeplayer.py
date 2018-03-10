@@ -86,12 +86,17 @@ PL_NUMCHANNELS = """+str(PL_NUMCHANNELS)+"""
 PL_NUMSIDCHANNELS = """+str(PL_NUMSIDCHANNELS)+"""
 PL_NUMSONGPOSITIONS = """+str(PL_NUMSONGPOSITIONS)+"""
 
-
-;Global (for all channels) variables
-PL_ZP_START = $"""+'{:02X}'.format(zpcounter)+"""
-PL_ZP_SONGPOS = $"""+'{:02X}'.format(zpcounter)+"\n"
+"""
+pf += ";Global (for all channels) variables\n"
+nbytes = 1
+pf += "PL_ZP_START = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
+#PL_ZP_SONGPOS = $"""+'{:02X}'.format(zpcounter)+"\n"
 zpcounter += 1
-pf += "PL_ZP_TICKCOUNTER = $"+'{:02X}'.format(zpcounter)+"\n"
+pf += "PL_ZP_TICKCOUNTER = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
+zpcounter += 1
+#pf += "PL_ZP_SONGPOS = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
+#zpcounter += 1
+pf += "PL_ZP_SEQPOS = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
 zpcounter += 1
 pf += "\n"
 
@@ -104,25 +109,31 @@ for i in range(PL_NUMCHANNELS):
 pf += "\n"
 
 nbytes = 1
-pf += ";Song position counters (separate for each channel)\n"
+pf += ";Song position counters (separate for each channel, to allow for Ableton Live mode style)\n"
 for i in range(PL_NUMCHANNELS):
     pf += "PL_ZP_CHN"+str(i).zfill(2)+"_SONGPOS = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
     zpcounter += nbytes
 pf += "\n"
+#pf += ";Song position counter (one global counter for all channels)\n"
+#pf += "PL_ZP_SONGPOS = $"+'{:02X}'.format(zpcounter)+"\n"
+#pf += "\n"
 
-nbytes = 1
-pf += ";Internal sequence position counters (separate for each channel)\n"
-for i in range(PL_NUMCHANNELS):
-    pf += "PL_ZP_CHN"+str(i).zfill(2)+"_SEQPOS = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
-    zpcounter += nbytes
-pf += "\n"
+#nbytes = 1
+#pf += ";Internal sequence position counters (separate for each channel)\n"
+#for i in range(PL_NUMCHANNELS):
+#    pf += "PL_ZP_CHN"+str(i).zfill(2)+"_SEQPOS = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
+#    zpcounter += nbytes
+#pf += "\n"
+#pf += ";Internal sequence pointer counter (one global counter for all channels)\n"
+#pf += "PL_ZP_SEQPOS = $"+'{:02X}'.format(zpcounter)+"\n"
+#pf += "\n"
 
-nbytes = 1
-pf += ";Delay counters (steps, not ticks, between each note)\n"
-for i in range(PL_NUMCHANNELS):
-    pf += "PL_ZP_CHN"+str(i).zfill(2)+"_DELAY = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
-    zpcounter += nbytes
-pf += "\n"
+#nbytes = 1
+#pf += ";Delay counters (steps, not ticks, between each note)\n"
+#for i in range(PL_NUMCHANNELS):
+#    pf += "PL_ZP_CHN"+str(i).zfill(2)+"_DELAY = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
+#    zpcounter += nbytes
+#pf += "\n"
 
 nbytes = 1
 pf += ";Multispeed coefficients (separately for each channel)\n"
@@ -197,7 +208,7 @@ pf += """\
 ;============================
 pl_main:
 
-    ;SKICKA MIDI-KLOCKA
+    ;SEND MIDI-CLOCK MESSAGE (ALWAYS 3 ticks per step to fit 24ppqn: pulses per quarter note)
 
 
     ;---------------------------
@@ -211,19 +222,30 @@ pl_main:
 		;the next note every time it receives 6 pulses.
 
 		;First check for sequence break (which is when tickcounter = 0)
-		dec PL_ZP_TICKCOUNTER\t;Ranges from 00-c0
-		beq +
-		jmp .noseqbreak
-+
+;		dec PL_ZP_TICKCOUNTER\t;Ranges from 00-c0
+;		beq +
+:		jmp .noseqbreak
+;+
+PL_TICKCOUNTER = *+1
+        ldy #0
+        beq .tick00
+        dec PL_TICKCOUNTER
+        cpy #3
+        beq .tick03_checkpretrig
+        jmp .noseqparse
 
-			;Time to fetch new sequence pointers
+.tick03_checkpretrig:
+
+            ;CHECK IF IT IS TIME TO FETCH NEW SEQUENCE POINTERS
+            
+            ;Time to fetch new sequence pointers
 
 """
 for i in range(PL_NUMCHANNELS):
     pf += "			;Fetch pointer for chn"+str(i).zfill(2)+"\n"
     pf += "			ldy PL_ZP_CHN"+str(i).zfill(2)+"_SONGPOS\t;Allow separate song positions for each channel (like ableton live mode).\n"
-    pf += "			tya\n"
-    pf += "			jsr ed_printbyte\n"
+    pf += ";			tya\n"
+    pf += ";			jsr ed_printbyte\n"
     pf += "			lax pl_chn"+str(i).zfill(2)+"_seqlist,y\n"
     # if i == 0:
     #     pf += "            jsr ed_printbyte\n"
@@ -235,8 +257,10 @@ for i in range(PL_NUMCHANNELS):
     pf += "\n"
 pf += """\
 			;Clear seqbreakflag
-			lda #$c0\t;There are ALWAYS 6*32 ticks/clocks in each sequence = compatible with SYNC24/MIDI SYNC
-			sta PL_ZP_TICKCOUNTER
+;			lda #$c0\t;There are ALWAYS 6*32 ticks/clocks in each sequence = compatible with SYNC24/MIDI SYNC
+;			sta PL_ZP_TICKCOUNTER
+            lda #6
+            sta PL_TICKCOUNTER
 
 .noseqbreak:
 ;---
@@ -245,16 +269,19 @@ pf += """\
 # Actual sequence parsing
 pf += """\
 
-		;Decide what to do on different player ticks (0 = seqparse, 3 = pretrig, 1,2,4,5 = do nothing)
-        ldx PL_ZP_TICKCOUNTER
-        txa
-        jsr ed_printbyte2
-		lda pl_tickaction,x
-		beq .tick00\t;00 in the table means tick00 (seqparse)
-		bpl .tick03\t;01 in the table means tick03 (pretrig)
-		jmp .doneseqparse\t;ff means there is no sequence parsing to do
 
 """
+#		;Decide what to do on different player ticks (0 = seqparse, 3 = pretrig, 1,2,4,5 = do nothing)
+#        ldx PL_ZP_TICKCOUNTER
+#        txa
+#        jsr ed_printbyte2
+#		lda pl_tickaction,x
+#		beq .tick00\t;00 in the table means tick00 (seqparse)
+#		bpl .tick03\t;01(-$7f) in the table means tick03 (pretrig)
+#       cpx #$ff
+#       beq .tick03_fetchseqptrs
+#		jmp .doneseqparse\t;ff means there is no sequence parsing to do
+
 
 #Sequence format
 #
@@ -302,7 +329,6 @@ pf += """
 
         ;Seqparse (at tick00)
 .tick00:
-
 """
 for i in range(PL_NUMCHANNELS):
     # pf += "xyz\n"
@@ -343,18 +369,18 @@ pl_init:
 		;---
 
 
-;============================
-pl_tickaction = *-1\t;Make table 1-indexed rather than 0-indexed
 """
-for i in range(32):
-    pf += "		!byte $00\t;$"+'{:02X}'.format(i*6+1)+": Tick 00\n"
-    pf += "		!byte $ff\t;$"+'{:02X}'.format(i*6+2)+": Tick 01\n"
-    pf += "		!byte $ff\t;$"+'{:02X}'.format(i*6+3)+": Tick 02\n"
-    pf += "		!byte $01\t;$"+'{:02X}'.format(i*6+4)+": Tick 03\n"
-    pf += "		!byte $ff\t;$"+'{:02X}'.format(i*6+5)+": Tick 04\n"
-    pf += "		!byte $ff\t;$"+'{:02X}'.format(i*6+6)+": Tick 05\n"
-pf += "		;---\n"
-pf += "\n"
+#;============================
+#pl_tickaction = *-1\t;Make table 1-indexed rather than 0-indexed
+#for i in range(32):
+#    pf += "		!byte $00\t;$"+'{:02X}'.format(i*6+1)+": Tick 00\n"
+#    pf += "		!byte $ff\t;$"+'{:02X}'.format(i*6+2)+": Tick 01\n"
+#    pf += "		!byte $ff\t;$"+'{:02X}'.format(i*6+3)+": Tick 02\n"
+#    pf += "		!byte $01\t;$"+'{:02X}'.format(i*6+4)+": Tick 03\n"
+#    pf += "		!byte $ff\t;$"+'{:02X}'.format(i*6+5)+": Tick 04\n"
+#    pf += "		!byte $ff\t;$"+'{:02X}'.format(i*6+6)+": Tick 05\n"
+#pf += "		;---\n"
+#pf += "\n"
 
 
 

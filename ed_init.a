@@ -7,23 +7,19 @@ ed_init:
 	lda #$37
 	sta $01
 	
-	;Clear screen
-	lda #12
-	sta $d020
-	lda ed_bgcol
-	sta $d021
-	jsr ed_clearscreen
-	
 	;Clear zeropage
 	ldx #2
 	lda #0
 -	sta $00,x
 	inx
 	bne -
-		
-	;Initialize player
+
+	;Initialize player (do this before GUI initialization)
 	lda #0
 	jsr pl_init
+
+	;Initialize GUI (Clear screen etc)
+	jsr ed_gui_init
 	
 	;Initialize interrupts
 	jsr ed_interrupt_editor

@@ -2,3 +2,40 @@
 HW scale not available, forcing to disabled
 Reading configuration file `/Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc'.
 HW scale not available, forcing to disabled
+2018-03-05 14:10:54.322 x64sc[77965:11982669] 14:10:54.322 WARNING:  140: This application, or a library it uses, is using the deprecated Carbon Component Manager for hosting Audio Units. Support for this will be removed in a future release. Also, this makes the host incompatible with version 3 audio units. Please transition to the API's in AudioComponent.h.
+HW scale not available, forcing to disabled
+Reading configuration file `/Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc'.
+Error - Unknown resource `RomsetArchiveName'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 12.
+Error - Unknown resource `RomsetArchiveActive'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 13.
+Error - Unknown resource `RomsetFileName'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 14.
+Error - Unknown resource `RomsetSourceFile'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 15.
+Error - Unknown resource `DoCoreDump'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 49.
+Error - Unknown resource `HwScalePossible'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 54.
+HW scale not available, forcing to disabled
+Error - Unknown resource `ETHERNET_INTERFACE'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 279.
+Error - Unknown resource `ETHERNET_DISABLED'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 280.
+Error - Unknown resource `ETHERNET_ACTIVE'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 281.
+Error - Unknown resource `ETHERNET_AS_RR'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 282.
+Error - Unknown resource `IDE64Config'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 294.
+Error - Unknown resource `IDE64RTCOffset'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 312.
+CART: attached '/Users/matsandren/sys/c64/rom/RetroReplayRomV38q/rr38q_cnet.bin' as ID 36.
+Error - Unknown resource `ExtraJoy'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 345.
+Error - Unknown resource `ExtraJoyType'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 346.
+Error - Unknown resource `DoodleTEDLumHandling'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 384.
+Error - Unknown resource `DoodleCRTCTextColor'.
+Warning - /Users/matsandren/Library/Preferences/org.viceteam.x64sc/vicerc: Unknown resource specification at line 385.
