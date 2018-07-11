@@ -111,6 +111,14 @@ pf += "\n"
 nbytes = 1
 pf += ";Song position counters (separate for each channel, to allow for Ableton Live mode style)\n"
 for i in range(PL_NUMCHANNELS):
+    pf += "PL_ZP_CHN"+str(i).zfill(2)+"_DELAY = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
+    zpcounter += nbytes
+pf += "\n"
+
+
+nbytes = 1
+pf += ";Song position counters (separate for each channel, to allow for Ableton Live mode style)\n"
+for i in range(PL_NUMCHANNELS):
     pf += "PL_ZP_CHN"+str(i).zfill(2)+"_SONGPOS = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
     zpcounter += nbytes
 pf += "\n"
@@ -209,6 +217,9 @@ pf += """\
 pl_main:
 
     ;SEND MIDI-CLOCK MESSAGE (ALWAYS 3 ticks per step to fit 24ppqn: pulses per quarter note)
+    ;
+    ; ...och.!!! Är inte det skitbra för pretrig-grejen? Då triggar man helt enkelt pretrigz
+    ; ett STEG innan
 
 
     ;---------------------------
@@ -221,6 +232,10 @@ pl_main:
 		;a Roland compatible device playing sixteenth notes would have to advance to
 		;the next note every time it receives 6 pulses.
 
+
+
+
+
 		;First check for sequence break (which is when tickcounter = 0)
 ;		dec PL_ZP_TICKCOUNTER\t;Ranges from 00-c0
 ;		beq +
@@ -228,7 +243,10 @@ pl_main:
 ;+
 PL_TICKCOUNTER = *+1
         ldy #0
-        beq .tick00
+;        beq .tick00
+        bne +
+        jmp .tick00
++
         dec PL_TICKCOUNTER
         cpy #3
         beq .tick03_checkpretrig
