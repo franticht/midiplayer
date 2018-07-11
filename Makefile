@@ -35,7 +35,7 @@ TOOLDIR = ~/sys/c64/devtools_mac
 ACME		= $(TOOLDIR)/acme0.93/acme$(POSTFIX)
 	
 PUCRUNCH	= $(TOOLDIR)/pucrunch/pucrunch$(POSTFIX)
-EXOMIZER	= $(TOOLDIR)/exomizer/exomizer$(POSTFIX)
+EXOMIZER	= $(TOOLDIR)/exomizer-3/exomizer$(POSTFIX)
 
 #8TO44		= $(TOOLDIR)/digiconv/8to44$(POSTFIX)
 #ASMDATE		= $(TOOLDIR)/date/asmdate$(POSTFIX)

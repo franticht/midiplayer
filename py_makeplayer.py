@@ -109,7 +109,7 @@ for i in range(PL_NUMCHANNELS):
 pf += "\n"
 
 nbytes = 1
-pf += ";Song position counters (separate for each channel, to allow for Ableton Live mode style)\n"
+pf += ";Delay counters (separate for each channel)\n"
 for i in range(PL_NUMCHANNELS):
     pf += "PL_ZP_CHN"+str(i).zfill(2)+"_DELAY = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
     zpcounter += nbytes
@@ -122,6 +122,15 @@ for i in range(PL_NUMCHANNELS):
     pf += "PL_ZP_CHN"+str(i).zfill(2)+"_SONGPOS = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
     zpcounter += nbytes
 pf += "\n"
+
+nbytes = 1
+pf += ";Sequence position counters (separate for each channel)\n"
+for i in range(PL_NUMCHANNELS):
+    pf += "PL_ZP_CHN"+str(i).zfill(2)+"_SEQPOS = $"+'{:02X}'.format(zpcounter)+"\t;"+str(nbytes)+" bytes\n"
+    zpcounter += nbytes
+pf += "\n"
+
+
 #pf += ";Song position counter (one global counter for all channels)\n"
 #pf += "PL_ZP_SONGPOS = $"+'{:02X}'.format(zpcounter)+"\n"
 #pf += "\n"

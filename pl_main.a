@@ -28,7 +28,7 @@ PL_ZP_CHN06 = $11	;2 bytes
 PL_ZP_CHN07 = $13	;2 bytes
 PL_ZP_CHN08 = $15	;2 bytes
 
-;Song position counters (separate for each channel, to allow for Ableton Live mode style)
+;Delay counters (separate for each channel)
 PL_ZP_CHN00_DELAY = $17	;1 bytes
 PL_ZP_CHN01_DELAY = $18	;1 bytes
 PL_ZP_CHN02_DELAY = $19	;1 bytes
@@ -50,96 +50,107 @@ PL_ZP_CHN06_SONGPOS = $26	;1 bytes
 PL_ZP_CHN07_SONGPOS = $27	;1 bytes
 PL_ZP_CHN08_SONGPOS = $28	;1 bytes
 
+;Sequence position counters (separate for each channel)
+PL_ZP_CHN00_SEQPOS = $29	;1 bytes
+PL_ZP_CHN01_SEQPOS = $2A	;1 bytes
+PL_ZP_CHN02_SEQPOS = $2B	;1 bytes
+PL_ZP_CHN03_SEQPOS = $2C	;1 bytes
+PL_ZP_CHN04_SEQPOS = $2D	;1 bytes
+PL_ZP_CHN05_SEQPOS = $2E	;1 bytes
+PL_ZP_CHN06_SEQPOS = $2F	;1 bytes
+PL_ZP_CHN07_SEQPOS = $30	;1 bytes
+PL_ZP_CHN08_SEQPOS = $31	;1 bytes
+
 ;Multispeed coefficients (separately for each channel)
-PL_ZP_CHN00_MULSPEED = $29	;1 bytes
-PL_ZP_CHN01_MULSPEED = $2A	;1 bytes
-PL_ZP_CHN02_MULSPEED = $2B	;1 bytes
-PL_ZP_CHN03_MULSPEED = $2C	;1 bytes
-PL_ZP_CHN04_MULSPEED = $2D	;1 bytes
-PL_ZP_CHN05_MULSPEED = $2E	;1 bytes
-PL_ZP_CHN06_MULSPEED = $2F	;1 bytes
-PL_ZP_CHN07_MULSPEED = $30	;1 bytes
-PL_ZP_CHN08_MULSPEED = $31	;1 bytes
+PL_ZP_CHN00_MULSPEED = $32	;1 bytes
+PL_ZP_CHN01_MULSPEED = $33	;1 bytes
+PL_ZP_CHN02_MULSPEED = $34	;1 bytes
+PL_ZP_CHN03_MULSPEED = $35	;1 bytes
+PL_ZP_CHN04_MULSPEED = $36	;1 bytes
+PL_ZP_CHN05_MULSPEED = $37	;1 bytes
+PL_ZP_CHN06_MULSPEED = $38	;1 bytes
+PL_ZP_CHN07_MULSPEED = $39	;1 bytes
+PL_ZP_CHN08_MULSPEED = $3A	;1 bytes
 
 ;Current base NOTE
-PL_ZP_CHN00_BASENOTE = $32	;1 bytes
-PL_ZP_CHN01_BASENOTE = $33	;1 bytes
-PL_ZP_CHN02_BASENOTE = $34	;1 bytes
-PL_ZP_CHN03_BASENOTE = $35	;1 bytes
-PL_ZP_CHN04_BASENOTE = $36	;1 bytes
-PL_ZP_CHN05_BASENOTE = $37	;1 bytes
-PL_ZP_CHN06_BASENOTE = $38	;1 bytes
-PL_ZP_CHN07_BASENOTE = $39	;1 bytes
-PL_ZP_CHN08_BASENOTE = $3A	;1 bytes
+PL_ZP_CHN00_BASENOTE = $3B	;1 bytes
+PL_ZP_CHN01_BASENOTE = $3C	;1 bytes
+PL_ZP_CHN02_BASENOTE = $3D	;1 bytes
+PL_ZP_CHN03_BASENOTE = $3E	;1 bytes
+PL_ZP_CHN04_BASENOTE = $3F	;1 bytes
+PL_ZP_CHN05_BASENOTE = $40	;1 bytes
+PL_ZP_CHN06_BASENOTE = $41	;1 bytes
+PL_ZP_CHN07_BASENOTE = $42	;1 bytes
+PL_ZP_CHN08_BASENOTE = $43	;1 bytes
 
 ;Current relative NOTE
-PL_ZP_CHN00_RELNOTE = $3B	;1 bytes
-PL_ZP_CHN01_RELNOTE = $3C	;1 bytes
-PL_ZP_CHN02_RELNOTE = $3D	;1 bytes
-PL_ZP_CHN03_RELNOTE = $3E	;1 bytes
-PL_ZP_CHN04_RELNOTE = $3F	;1 bytes
-PL_ZP_CHN05_RELNOTE = $40	;1 bytes
-PL_ZP_CHN06_RELNOTE = $41	;1 bytes
-PL_ZP_CHN07_RELNOTE = $42	;1 bytes
-PL_ZP_CHN08_RELNOTE = $43	;1 bytes
+PL_ZP_CHN00_RELNOTE = $44	;1 bytes
+PL_ZP_CHN01_RELNOTE = $45	;1 bytes
+PL_ZP_CHN02_RELNOTE = $46	;1 bytes
+PL_ZP_CHN03_RELNOTE = $47	;1 bytes
+PL_ZP_CHN04_RELNOTE = $48	;1 bytes
+PL_ZP_CHN05_RELNOTE = $49	;1 bytes
+PL_ZP_CHN06_RELNOTE = $4A	;1 bytes
+PL_ZP_CHN07_RELNOTE = $4B	;1 bytes
+PL_ZP_CHN08_RELNOTE = $4C	;1 bytes
 
 ;Current SC1 (Sound Chunk #1)
-PL_ZP_CHN00_SC1 = $44	;1 bytes
-PL_ZP_CHN01_SC1 = $45	;1 bytes
-PL_ZP_CHN02_SC1 = $46	;1 bytes
-PL_ZP_CHN03_SC1 = $47	;1 bytes
-PL_ZP_CHN04_SC1 = $48	;1 bytes
-PL_ZP_CHN05_SC1 = $49	;1 bytes
-PL_ZP_CHN06_SC1 = $4A	;1 bytes
-PL_ZP_CHN07_SC1 = $4B	;1 bytes
-PL_ZP_CHN08_SC1 = $4C	;1 bytes
+PL_ZP_CHN00_SC1 = $4D	;1 bytes
+PL_ZP_CHN01_SC1 = $4E	;1 bytes
+PL_ZP_CHN02_SC1 = $4F	;1 bytes
+PL_ZP_CHN03_SC1 = $50	;1 bytes
+PL_ZP_CHN04_SC1 = $51	;1 bytes
+PL_ZP_CHN05_SC1 = $52	;1 bytes
+PL_ZP_CHN06_SC1 = $53	;1 bytes
+PL_ZP_CHN07_SC1 = $54	;1 bytes
+PL_ZP_CHN08_SC1 = $55	;1 bytes
 
 ;Current SC1 ORIGINAL POSITION (Sound Chunk #1)
-PL_ZP_CHN00_SC1_ORGPOS = $4D	;1 bytes
-PL_ZP_CHN01_SC1_ORGPOS = $4E	;1 bytes
-PL_ZP_CHN02_SC1_ORGPOS = $4F	;1 bytes
-PL_ZP_CHN03_SC1_ORGPOS = $50	;1 bytes
-PL_ZP_CHN04_SC1_ORGPOS = $51	;1 bytes
-PL_ZP_CHN05_SC1_ORGPOS = $52	;1 bytes
-PL_ZP_CHN06_SC1_ORGPOS = $53	;1 bytes
-PL_ZP_CHN07_SC1_ORGPOS = $54	;1 bytes
-PL_ZP_CHN08_SC1_ORGPOS = $55	;1 bytes
+PL_ZP_CHN00_SC1_ORGPOS = $56	;1 bytes
+PL_ZP_CHN01_SC1_ORGPOS = $57	;1 bytes
+PL_ZP_CHN02_SC1_ORGPOS = $58	;1 bytes
+PL_ZP_CHN03_SC1_ORGPOS = $59	;1 bytes
+PL_ZP_CHN04_SC1_ORGPOS = $5A	;1 bytes
+PL_ZP_CHN05_SC1_ORGPOS = $5B	;1 bytes
+PL_ZP_CHN06_SC1_ORGPOS = $5C	;1 bytes
+PL_ZP_CHN07_SC1_ORGPOS = $5D	;1 bytes
+PL_ZP_CHN08_SC1_ORGPOS = $5E	;1 bytes
 
 ;Current SC2 (Sound Chunk #2)
-PL_ZP_CHN00_SC2 = $56	;1 bytes
-PL_ZP_CHN01_SC2 = $57	;1 bytes
-PL_ZP_CHN02_SC2 = $58	;1 bytes
-PL_ZP_CHN03_SC2 = $59	;1 bytes
-PL_ZP_CHN04_SC2 = $5A	;1 bytes
-PL_ZP_CHN05_SC2 = $5B	;1 bytes
-PL_ZP_CHN06_SC2 = $5C	;1 bytes
-PL_ZP_CHN07_SC2 = $5D	;1 bytes
-PL_ZP_CHN08_SC2 = $5E	;1 bytes
+PL_ZP_CHN00_SC2 = $5F	;1 bytes
+PL_ZP_CHN01_SC2 = $60	;1 bytes
+PL_ZP_CHN02_SC2 = $61	;1 bytes
+PL_ZP_CHN03_SC2 = $62	;1 bytes
+PL_ZP_CHN04_SC2 = $63	;1 bytes
+PL_ZP_CHN05_SC2 = $64	;1 bytes
+PL_ZP_CHN06_SC2 = $65	;1 bytes
+PL_ZP_CHN07_SC2 = $66	;1 bytes
+PL_ZP_CHN08_SC2 = $67	;1 bytes
 
 ;Keep track of current MIDI program used in this channel (0-15)
-PL_ZP_CHN00_MIDI_PROGRAM = $5F	;1 bytes
-PL_ZP_CHN01_MIDI_PROGRAM = $60	;1 bytes
-PL_ZP_CHN02_MIDI_PROGRAM = $61	;1 bytes
-PL_ZP_CHN03_MIDI_PROGRAM = $62	;1 bytes
-PL_ZP_CHN04_MIDI_PROGRAM = $63	;1 bytes
-PL_ZP_CHN05_MIDI_PROGRAM = $64	;1 bytes
-PL_ZP_CHN06_MIDI_PROGRAM = $65	;1 bytes
-PL_ZP_CHN07_MIDI_PROGRAM = $66	;1 bytes
-PL_ZP_CHN08_MIDI_PROGRAM = $67	;1 bytes
+PL_ZP_CHN00_MIDI_PROGRAM = $68	;1 bytes
+PL_ZP_CHN01_MIDI_PROGRAM = $69	;1 bytes
+PL_ZP_CHN02_MIDI_PROGRAM = $6A	;1 bytes
+PL_ZP_CHN03_MIDI_PROGRAM = $6B	;1 bytes
+PL_ZP_CHN04_MIDI_PROGRAM = $6C	;1 bytes
+PL_ZP_CHN05_MIDI_PROGRAM = $6D	;1 bytes
+PL_ZP_CHN06_MIDI_PROGRAM = $6E	;1 bytes
+PL_ZP_CHN07_MIDI_PROGRAM = $6F	;1 bytes
+PL_ZP_CHN08_MIDI_PROGRAM = $70	;1 bytes
 
 ;MIDI VELOCITY for each channel
 ;Default velocity is 100 (max is 127)
-PL_ZP_CHN00_MIDI_VELOCITY = $68	;1 bytes
-PL_ZP_CHN01_MIDI_VELOCITY = $69	;1 bytes
-PL_ZP_CHN02_MIDI_VELOCITY = $6A	;1 bytes
-PL_ZP_CHN03_MIDI_VELOCITY = $6B	;1 bytes
-PL_ZP_CHN04_MIDI_VELOCITY = $6C	;1 bytes
-PL_ZP_CHN05_MIDI_VELOCITY = $6D	;1 bytes
-PL_ZP_CHN06_MIDI_VELOCITY = $6E	;1 bytes
-PL_ZP_CHN07_MIDI_VELOCITY = $6F	;1 bytes
-PL_ZP_CHN08_MIDI_VELOCITY = $70	;1 bytes
+PL_ZP_CHN00_MIDI_VELOCITY = $71	;1 bytes
+PL_ZP_CHN01_MIDI_VELOCITY = $72	;1 bytes
+PL_ZP_CHN02_MIDI_VELOCITY = $73	;1 bytes
+PL_ZP_CHN03_MIDI_VELOCITY = $74	;1 bytes
+PL_ZP_CHN04_MIDI_VELOCITY = $75	;1 bytes
+PL_ZP_CHN05_MIDI_VELOCITY = $76	;1 bytes
+PL_ZP_CHN06_MIDI_VELOCITY = $77	;1 bytes
+PL_ZP_CHN07_MIDI_VELOCITY = $78	;1 bytes
+PL_ZP_CHN08_MIDI_VELOCITY = $79	;1 bytes
 
-PL_ZP_END = $71
+PL_ZP_END = $7A
 
 ;============================
 pl_main:
