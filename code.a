@@ -2,13 +2,13 @@
 	;General purpose macros
 	!src "generic_macros.a"
 
-	;Constants	
+	;Constants
 	!src "ed_const.a"	;Editor constants
 	!src "ed_zp.a"		;Also constants actually (BSS mem kind of)
 
 	;----------------------------
 	; Program flow starts here
-	
+
 	;Main
 	!src "start.a"			;Contains start adress. This is specified in the makefile and is also used by the packer(s)
 ;	jsr ed_init
@@ -17,7 +17,7 @@
 	!src "ed_mainloop.a"	;Including this directly into the program flow, instead of calling as a subroutine
 
 	;----------------------------
-	
+
 	;Watermark
 ;	!src "ed_rndfile1.a"	;Watermarking
 	!src "date.a"
@@ -51,4 +51,3 @@
 ;	!src "ed_rndfile7.a"	;Watermarking
 ;	!src "ed_mainloop.a"
 ;	!src "ed_rndfile8.a"	;Watermarking
-
